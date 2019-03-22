@@ -3,8 +3,15 @@
 require_once 'metrotweaks.civix.php';
 use CRM_Metrotweaks_ExtensionUtil as E;
 
+/**
+ * Implements hook_civicrm_post().
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_post
+ */
 function metrotweaks_civicrm_post($op, $objectName, $objectId, &$objectRef) {
+  // On change/create of any contribution:
   if ($objectName == 'Contribution' && in_array($op, array('create', 'edit'))) {
+    // Calculate discounts.
     $total_amount = (isset($objectRef->total_amount) ? $objectRef->total_amount : 0);
     $discount3per = $total_amount - ($total_amount * .03);
     $discount5per = $total_amount - ($total_amount * .05);
