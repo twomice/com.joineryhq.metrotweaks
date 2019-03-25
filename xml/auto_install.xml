@@ -4,7 +4,7 @@
   <CustomGroups>
     <CustomGroup>
       <name>Contribution_Discounts</name>
-      <title>Contribution Discounts</title>
+      <title>Discounts</title>
       <extends>Contribution</extends>
       <style>Inline</style>
       <collapse_display>0</collapse_display>
