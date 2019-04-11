@@ -4,6 +4,31 @@ require_once 'metrotweaks.civix.php';
 use CRM_Metrotweaks_ExtensionUtil as E;
 
 /**
+ * Implements hook_civicrm_buildForm().
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_buildForm
+ */
+function metrotweaks_civicrm_buildForm($formName, &$form) {
+  $activityForms = array (
+    'CRM_Activity_Form_Activity',
+  );
+  if (in_array($formName, $activityForms)) {
+    $config = _metrotweaks_get_config();
+    if ($activityTypesConfig = CRM_Utils_Array::value('activityTypesConfig', $config)) {
+      $settings = array(
+        'metrotweaks' => array(
+          'activityTypesConfig' => $activityTypesConfig,
+          'defaultActivityTypeId' => $form->_activityTypeId,
+          'activityId' => $form->_activityId,
+        ),
+      );
+      CRM_Core_Resources::singleton()->addSetting($settings);
+      CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.metrotweaks', 'js/activityDateTweaks.js');
+    }
+  }
+}
+
+/**
  * Implements hook_civicrm_post().
  *
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_post
@@ -192,3 +217,8 @@ function metrotweaks_civicrm_navigationMenu(&$menu) {
   ));
   _metrotweaks_civix_navigationMenu($menu);
 } // */
+
+
+function _metrotweaks_get_config() {
+  return CRM_Core_BAO_Setting::getItem(NULL, 'com.joineryhq.metrotweaks');
+}

@@ -5,6 +5,7 @@
 Custom behaviors for Metro: 
 
 * "Discounted 3% and 5%" auto-calculation on contributions.
+* Tweaks to activity date fields per on activity type.
 * More ideas in the works ...
 
 The extension is licensed under [GPL-3.0](LICENSE.txt).
@@ -49,6 +50,28 @@ contribution value:
 
 These fields are searchable and thus appear in reports, search criteria, and as tokens.
 Field values are automatically updated with any change to the contribution record.
+
+## Configuration
+
+This extension has no browser-based configuration form within CiviCRM. Configuration
+is by PHP arrays in code within the civicrm.settings.php file.
+
+### Activity date tweaks
+This extension will alter the label of the Date field on activities, and optionally
+leave that field without a default value on newly created activities, per activity
+type, for configured types. To configure, you'll need to add in your 
+civicrm.settings.php file a new config variable:
+
+```php
+global $civicrm_setting;
+$civicrm_setting['com.joineryhq.metrotweaks']['activityTypesConfig'] = array(
+  '1' => array (                      // Numerical activity type ID
+    'dateLabel' => 'Foobar Date',     // Date label string. Optional. Omit to leave as-is.
+    'nullDefaultDate' => TRUE,        // If true, clear default date
+                                      // instead of using current
+                                      // date/time
+);
+```
 
 ## Issues and support
 
