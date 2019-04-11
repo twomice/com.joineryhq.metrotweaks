@@ -70,6 +70,7 @@ $civicrm_setting['com.joineryhq.metrotweaks']['activityTypesConfig'] = array(
     'nullDefaultDate' => TRUE,        // If true, clear default date
                                       // instead of using current
                                       // date/time
+  ),
 );
 ```
 
