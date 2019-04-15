@@ -64,12 +64,14 @@ civicrm.settings.php file a new config variable:
 
 ```php
 global $civicrm_setting;
-$civicrm_setting['com.joineryhq.metrotweaks']['activityTypesConfig'] = array(
-  '1' => array (                      // Numerical activity type ID
-    'dateLabel' => 'Foobar Date',     // Date label string. Optional. Omit to leave as-is.
-    'nullDefaultDate' => TRUE,        // If true, clear default date
-                                      // instead of using current
-                                      // date/time
+$civicrm_setting['com.joineryhq.metrotweaks']['com.joineryhq.metrotweaks'] = array(
+  'activityTypesConfig' => array(
+    '1' => array (                      // Numerical activity type ID
+      'dateLabel' => 'Foobar Date',     // Date label string. Optional. Omit to leave as-is.
+      'nullDefaultDate' => TRUE,        // If true, clear default date
+                                        // instead of using current
+                                        // date/time
+    ),
   ),
 );
 ```
