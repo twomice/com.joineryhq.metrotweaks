@@ -1,12 +1,12 @@
 # Metro Tweaks by Joinery
 
-![Screenshot](/images/screenshot.png)
-
 Custom behaviors for Metro: 
 
-* "Discounted 3% and 5%" auto-calculation on contributions.
+* "Discounted 3% and 5%" auto-calculation on contributions: <br/>![3-5-discount.png](/images/3-5-discount.png)
 * Tweaks to activity date fields per on activity type.
-* More ideas in the works ...
+* Soft Credit contact fields are limited to Organization contacts.
+* Certain fields are hidden on Contribution View and Edit forms: <br/>![hiddenContribFields.png](/images/hiddenContribFields.png)
+* On a contact's Contributions tab, Amount is not a link and thus does not expand to show payments.
 
 The extension is licensed under [GPL-3.0](LICENSE.txt).
 
