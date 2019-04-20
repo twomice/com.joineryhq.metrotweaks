@@ -2,7 +2,7 @@
 <extension key="com.joineryhq.metrotweaks" type="module">
   <file>metrotweaks</file>
   <name>Metro Tweaks by Joinery</name>
-  <description>Custom behaviors for Metro: "Discounted 3% and 5%" autocalculation on contributions.</description>
+  <description>Custom behaviors for Metro</description>
   <license>GPL-3.0</license>
   <maintainer>
     <author>Allen Shaw</author>
