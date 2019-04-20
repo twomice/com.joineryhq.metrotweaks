@@ -9,7 +9,12 @@ use CRM_Metrotweaks_ExtensionUtil as E;
  * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_buildForm
  */
 function metrotweaks_civicrm_buildForm($formName, &$form) {
-  $activityForms = array (
+  _metrotweaks_buildForm_activity($formName, $form);
+  _metrotweaks_buildForm_contribution($formName, $form);
+}
+
+function _metrotweaks_buildForm_activity($formName, &$form) {
+  $activityForms = array(
     'CRM_Activity_Form_Activity',
   );
   if (in_array($formName, $activityForms)) {
@@ -25,6 +30,37 @@ function metrotweaks_civicrm_buildForm($formName, &$form) {
       CRM_Core_Resources::singleton()->addSetting($settings);
       CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.metrotweaks', 'js/activityDateTweaks.js');
     }
+  }
+}
+
+function _metrotweaks_buildForm_contribution($formName, &$form) {
+
+  $contributionForms = array(
+    'CRM_Contribute_Form_Contribution',
+    'CRM_Contribute_Form_ContributionView',
+  );
+  if (in_array($formName, $contributionForms)) {
+
+    $settings = array(
+      'metrotweaks' => array(
+        'contributionLabelsToHide' => array(),
+      ),
+    );
+
+    $contributionLabelsToHide = array(
+      'Non-deductible Amount',
+      'Fee Amount',
+      'Net Amount',
+      'Received Into',
+      'Payment Method',
+      'Payment Details',
+    );
+    foreach ($contributionLabelsToHide as $label) {
+      $settings['metrotweaks']['contributionLabelsToHide'][] = E::ts($label);
+    }
+
+    CRM_Core_Resources::singleton()->addSetting($settings);
+    CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.metrotweaks', 'js/contributionTweaks.js');
   }
 }
 
