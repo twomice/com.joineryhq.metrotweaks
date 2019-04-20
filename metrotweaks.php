@@ -10,7 +10,24 @@ use CRM_Metrotweaks_ExtensionUtil as E;
  */
 function metrotweaks_civicrm_buildForm($formName, &$form) {
   _metrotweaks_buildForm_activity($formName, $form);
-  _metrotweaks_buildForm_contribution($formName, $form);
+  _metrotweaks_buildForm_hideContributionFields($formName, $form);
+}
+
+function metrotweaks_civicrm_alterEntityRefParams(&$params, $formName) {
+  // If this is the "Soft Credit" entityref field on the Contribution form (whether
+  // Create or Edit), we want to limit the results to organizations. This hook
+  // lets us define that limitation, but it doesn't provide a lot of scope
+  // variables to detect the exact situation. Here we make a best effort to
+  // match the relevant properties of the $params array such that it only
+  // happens for this specific entityRef field.
+  if (
+    $formName == 'CRM_Contribute_Form_Contribution'
+    && $params['entity'] === 'contact'
+    && $params['create'] === TRUE
+    && $params['placeholder'] === '- none -'
+  ) {
+    $params['api'] = array('params' => array('contact_type' => 'organization'));
+  }
 }
 
 function _metrotweaks_buildForm_activity($formName, &$form) {
@@ -33,7 +50,7 @@ function _metrotweaks_buildForm_activity($formName, &$form) {
   }
 }
 
-function _metrotweaks_buildForm_contribution($formName, &$form) {
+function _metrotweaks_buildForm_hideContributionFields($formName, &$form) {
 
   $contributionForms = array(
     'CRM_Contribute_Form_Contribution',
