@@ -11,8 +11,14 @@ use CRM_Metrotweaks_ExtensionUtil as E;
 function metrotweaks_civicrm_buildForm($formName, &$form) {
   _metrotweaks_buildForm_activity($formName, $form);
   _metrotweaks_buildForm_hideContributionFields($formName, $form);
+  _metrotweaks_buildForm_unlinkContributionTabAmounts($formName, $form);
 }
 
+/**
+ * Implements hook_civicrm_alterEntityRefParams().
+ *
+ * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterEntityRefParams
+ */
 function metrotweaks_civicrm_alterEntityRefParams(&$params, $formName) {
   // If this is the "Soft Credit" entityref field on the Contribution form (whether
   // Create or Edit), we want to limit the results to organizations. This hook
@@ -30,6 +36,18 @@ function metrotweaks_civicrm_alterEntityRefParams(&$params, $formName) {
   }
 }
 
+/**
+ * Do tweaks for the Contributions Tab.
+ */
+function _metrotweaks_buildForm_unlinkContributionTabAmounts($formName, $form) {
+  if ($formName == 'CRM_Contribute_Form_Search') {
+    CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.metrotweaks', 'js/contributionTabTweaks.js');
+  }
+}
+
+/**
+ * Do tweaks for the Activity form.
+ */
 function _metrotweaks_buildForm_activity($formName, &$form) {
   $activityForms = array(
     'CRM_Activity_Form_Activity',
@@ -50,8 +68,10 @@ function _metrotweaks_buildForm_activity($formName, &$form) {
   }
 }
 
+/**
+ * Do tweaks to hide specific fields on the Add/Edit Contribution form.
+ */
 function _metrotweaks_buildForm_hideContributionFields($formName, &$form) {
-
   $contributionForms = array(
     'CRM_Contribute_Form_Contribution',
     'CRM_Contribute_Form_ContributionView',
@@ -64,6 +84,7 @@ function _metrotweaks_buildForm_hideContributionFields($formName, &$form) {
       ),
     );
 
+    // Define the labels of rows that should be hidden.
     $contributionLabelsToHide = array(
       'Non-deductible Amount',
       'Fee Amount',
@@ -72,6 +93,9 @@ function _metrotweaks_buildForm_hideContributionFields($formName, &$form) {
       'Payment Method',
       'Payment Details',
     );
+    // Pass each label through ts(). For some reason, ts() in JavaScript is not
+    // enough to match with Word Replaements, but doing ts() here in PHP works
+    // well in that regard.
     foreach ($contributionLabelsToHide as $label) {
       $settings['metrotweaks']['contributionLabelsToHide'][] = E::ts($label);
     }
