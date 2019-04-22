@@ -86,9 +86,10 @@ function _metrotweaks_buildForm_hideContributionFields($formName, &$form) {
 
     // Define the labels of rows that should be hidden.
     $contributionLabelsToHide = array(
-      'Non-deductible Amount',
+      'Check Number',
       'Fee Amount',
       'Net Amount',
+      'Non-deductible Amount',
       'Received Into',
       'Payment Method',
       'Payment Details',
