@@ -28,9 +28,9 @@ function metrotweaks_civicrm_alterEntityRefParams(&$params, $formName) {
   // happens for this specific entityRef field.
   if (
     $formName == 'CRM_Contribute_Form_Contribution'
-    && $params['entity'] === 'contact'
+    && strtolower($params['entity']) === 'contact'
     && $params['create'] === TRUE
-    && $params['placeholder'] === '- none -'
+    && strtolower($params['placeholder']) === '- none -'
   ) {
     $params['api'] = array('params' => array('contact_type' => 'organization'));
   }
