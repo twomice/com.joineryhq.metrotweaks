@@ -34,7 +34,7 @@
       // Adjust the date field label, if so configured.
       $('label[for="activity_date_time"]').html(typeConfig.dateLabel);
     }
-  }
+  };
   
   /**
    * Nullify date/time fields, or restore them to previous values, as needed.
@@ -72,7 +72,7 @@
         $('#activity_date_time').siblings('input[aria-label="Time"]').val(defaultTime);
       }
     }
-  }
+  };
   
   // Set a change handler on the activity type id field.
   $('#activity_type_id').change(function(){
