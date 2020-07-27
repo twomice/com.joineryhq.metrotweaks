@@ -1,5 +1,5 @@
 <?php
-// use CRM_Metrotweaks_ExtensionUtil as E;
+use CRM_Metrotweaks_ExtensionUtil as E;
 
 /**
  * Collection of upgrade steps.
