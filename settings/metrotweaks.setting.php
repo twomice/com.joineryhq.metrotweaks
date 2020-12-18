@@ -2,6 +2,9 @@
 /*
  * Settings metadata file
  */
+
+use CRM_Metrotweaks_ExtensionUtil as E;
+
 return [
   'com.joineryhq.metrotweaks' => [
     'group_name' => 'com.joineryhq.metrotweaks',
