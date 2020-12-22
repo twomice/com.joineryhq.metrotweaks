@@ -2,6 +2,9 @@
 /*
  * Settings metadata file
  */
+
+use CRM_Metrotweaks_ExtensionUtil as E;
+
 return [
   'com.joineryhq.metrotweaks' => [
     'group_name' => 'com.joineryhq.metrotweaks',
@@ -10,10 +13,10 @@ return [
     'html_type' => 'textarea',
     'default' => FALSE,
     'add' => '5.0',
-    'title' => ts('Activity Type Properties'),
+    'title' => E::ts('Activity Type Properties'),
     'is_domain' => 0,
     'is_contact' => 0,
-    'description' => ts('An array of settings for the Metro Tweaks extension.'),
+    'description' => E::ts('An array of settings for the Metro Tweaks extension.'),
     'help_text' => NULL,
   ],
 ];
