@@ -2,8 +2,8 @@
 
 Custom behaviors for Metro: 
 
-* "Discounted 3% and 5%" auto-calculation on contributions: <br/>![3-5-discount.png](/images/3-5-discount.png)
-* Tweaks to activity date fields per on activity type.
+* "Discounted 3% and 5%" auto-calculation on contributions (see [Usage: Discounted amount calculation](#discounted-amount-calculation) below): <br/>![3-5-discount.png](/images/3-5-discount.png)
+* Tweaks to activity date fields per on activity type (see [Configuration: Activity date tweaks](#activity-date-tweaks) below).
 * Soft Credit contact fields are limited to Organization contacts.
 * Certain fields are hidden on Contribution View and Edit forms: <br/>![hiddenContribFields.png](/images/hiddenContribFields.png)
 * On a contact's Contributions tab, Amount is not a link and thus does not expand to show payments.
@@ -41,6 +41,7 @@ cv en metrotweaks
 
 ## Usage
 
+### Discounted amount calculation
 This extension creates two read-only custom fields on every contribution, which
 are automatically adjusted to always display the appropriately discounted 
 contribution value:
