@@ -17,7 +17,7 @@ function metrotweaks_civicrm_buildForm($formName, &$form) {
 /**
  * Implements hook_civicrm_alterEntityRefParams().
  *
- * @link http://wiki.civicrm.org/confluence/display/CRMDOC/hook_civicrm_alterEntityRefParams
+ * @link https://docs.civicrm.org/dev/en/latest/hooks/hook_civicrm_alterEntityRefParams/
  */
 function metrotweaks_civicrm_alterEntityRefParams(&$params, $formName) {
   // If this is the "Soft Credit" entityref field on the Contribution form (whether
@@ -26,11 +26,16 @@ function metrotweaks_civicrm_alterEntityRefParams(&$params, $formName) {
   // variables to detect the exact situation. Here we make a best effort to
   // match the relevant properties of the $params array such that it only
   // happens for this specific entityRef field.
+
+  // Define a shorthand variable for lowercased scalar members of $params
+  // (strtolower() will trigger a warning on any non-scalar values, so we filter for scalar values first).
+  $paramsLowerCaseScalars = array_map('strtolower', array_filter($params, 'is_scalar'));
   if (
     $formName == 'CRM_Contribute_Form_Contribution'
-    && strtolower($params['entity']) === 'contact'
-    && $params['create'] === TRUE
-    && strtolower($params['placeholder']) === '- none -'
+    && $paramsLowerCaseScalars['entity'] === 'contact'
+    && $params['create'] == TRUE
+    // older civicrm versions use '- none -'; newer versions use '- select Contact -'
+    && ($paramsLowerCaseScalars['placeholder'] === '- none -' || $paramsLowerCaseScalars['placeholder'] === '- select contact -')
   ) {
     $params['api'] = array('params' => array('contact_type' => 'organization'));
   }
@@ -94,13 +99,13 @@ function _metrotweaks_buildForm_hideContributionFields($formName, &$form) {
       'Payment Method',
       'Payment Details',
     );
-    // Pass each label through ts(). For some reason, ts() in JavaScript is not
+    // Pass each label through ts(). It happens that ts() in JavaScript is not
     // enough to match with Word Replaements, but doing ts() here in PHP works
     // well in that regard.
     foreach ($contributionLabelsToHide as $label) {
       $settings['metrotweaks']['contributionLabelsToHide'][] = E::ts($label);
     }
-
+    // Pass settings to JS, which will do the hiding.
     CRM_Core_Resources::singleton()->addSetting($settings);
     CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.metrotweaks', 'js/contributionTweaks.js');
   }
