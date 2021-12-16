@@ -30,14 +30,19 @@ function metrotweaks_civicrm_alterEntityRefParams(&$params, $formName) {
   // Define a shorthand variable for lowercased scalar members of $params
   // (strtolower() will trigger a warning on any non-scalar values, so we filter for scalar values first).
   $paramsLowerCaseScalars = array_map('strtolower', array_filter($params, 'is_scalar'));
+  $paramsApiExtra = ($params['api']['extra'] ?? array());
   if (
     $formName == 'CRM_Contribute_Form_Contribution'
     && $paramsLowerCaseScalars['entity'] === 'contact'
     && $params['create'] == TRUE
     // older civicrm versions use '- none -'; newer versions use '- select Contact -'
     && ($paramsLowerCaseScalars['placeholder'] === '- none -' || $paramsLowerCaseScalars['placeholder'] === '- select contact -')
+    // The 'contributor' entityRef has 'extra' => ['email' ...]; currently this is
+    // the only known way to identify this field as other-than-soft-credit.
+    && (!in_array('email', $paramsApiExtra))
   ) {
-    $params['api'] = array('params' => array('contact_type' => 'organization'));
+    $params['api']['params']['contact_type'] = 'organization';
+    $params['placeholder'] = '- select Organization -';
   }
 }
 
