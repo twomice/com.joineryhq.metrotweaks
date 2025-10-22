@@ -64,7 +64,7 @@ function _metrotweaks_buildForm_activity($formName, &$form) {
   );
   if (in_array($formName, $activityForms)) {
     $config = _metrotweaks_get_config();
-    if ($activityTypesConfig = CRM_Utils_Array::value('activityTypesConfig', $config)) {
+    if ($activityTypesConfig = $config['activityTypesConfig'] ?? NULL) {
       $settings = array(
         'metrotweaks' => array(
           'activityTypesConfig' => $activityTypesConfig,
