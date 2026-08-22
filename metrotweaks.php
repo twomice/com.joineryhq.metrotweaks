@@ -204,5 +204,5 @@ function metrotweaks_civicrm_enable() {
  * }
  */
 function _metrotweaks_get_config() {
-  return CRM_Core_BAO_Setting::getItem(NULL, 'com.joineryhq.metrotweaks');
+  return Civi::settings()->get('com.joineryhq.metrotweaks');
 }
