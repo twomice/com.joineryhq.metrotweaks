@@ -30,7 +30,7 @@ function metrotweaks_civicrm_alterEntityRefParams(&$params, $formName) {
   // Define a shorthand variable for lowercased scalar members of $params
   // (strtolower() will trigger a warning on any non-scalar values, so we filter for scalar values first).
   $paramsLowerCaseScalars = array_map('strtolower', array_filter($params, 'is_scalar'));
-  $paramsApiExtra = ($params['api']['extra'] ?? array());
+  $paramsApiExtra = ($params['api']['extra'] ?? []);
   if (
     $formName == 'CRM_Contribute_Form_Contribution'
     && $paramsLowerCaseScalars['entity'] === 'contact'
@@ -59,19 +59,19 @@ function _metrotweaks_buildForm_unlinkContributionTabAmounts($formName, $form) {
  * Do tweaks for the Activity form.
  */
 function _metrotweaks_buildForm_activity($formName, &$form) {
-  $activityForms = array(
+  $activityForms = [
     'CRM_Activity_Form_Activity',
-  );
+  ];
   if (in_array($formName, $activityForms)) {
     $config = _metrotweaks_get_config();
     if ($activityTypesConfig = $config['activityTypesConfig'] ?? NULL) {
-      $settings = array(
-        'metrotweaks' => array(
+      $settings = [
+        'metrotweaks' => [
           'activityTypesConfig' => $activityTypesConfig,
           'defaultActivityTypeId' => $form->_activityTypeId,
           'activityId' => $form->_activityId,
-        ),
-      );
+        ],
+      ];
       CRM_Core_Resources::singleton()->addSetting($settings);
       CRM_Core_Resources::singleton()->addScriptFile('com.joineryhq.metrotweaks', 'js/activityDateTweaks.js');
     }
@@ -82,20 +82,20 @@ function _metrotweaks_buildForm_activity($formName, &$form) {
  * Do tweaks to hide specific fields on the Add/Edit Contribution form.
  */
 function _metrotweaks_buildForm_hideContributionFields($formName, &$form) {
-  $contributionForms = array(
+  $contributionForms = [
     'CRM_Contribute_Form_Contribution',
     'CRM_Contribute_Form_ContributionView',
-  );
+  ];
   if (in_array($formName, $contributionForms)) {
 
-    $settings = array(
-      'metrotweaks' => array(
-        'contributionLabelsToHide' => array(),
-      ),
-    );
+    $settings = [
+      'metrotweaks' => [
+        'contributionLabelsToHide' => [],
+      ],
+    ];
 
     // Define the labels of rows that should be hidden.
-    $contributionLabelsToHide = array(
+    $contributionLabelsToHide = [
       'Check Number',
       'Fee Amount',
       'Net Amount',
@@ -103,7 +103,7 @@ function _metrotweaks_buildForm_hideContributionFields($formName, &$form) {
       'Received Into',
       'Payment Method',
       'Payment Details',
-    );
+    ];
     // Pass each label through ts(). It happens that ts() in JavaScript is not
     // enough to match with Word Replaements, but doing ts() here in PHP works
     // well in that regard.
@@ -123,7 +123,7 @@ function _metrotweaks_buildForm_hideContributionFields($formName, &$form) {
  */
 function metrotweaks_civicrm_post($op, $objectName, $objectId, &$objectRef) {
   // On change/create of any contribution:
-  if ($objectName == 'Contribution' && in_array($op, array('create', 'edit'))) {
+  if ($objectName == 'Contribution' && in_array($op, ['create', 'edit'])) {
     // Calculate discounts.
     $total_amount = (isset($objectRef->total_amount) ? $objectRef->total_amount : 0);
     $discount3per = $total_amount - ($total_amount * .03);
@@ -137,14 +137,14 @@ function metrotweaks_civicrm_post($op, $objectName, $objectId, &$objectRef) {
     // performance hit. E.g., importing 100 contributions takes ~12 seconds if
     // we use Contribution API with static cache checking, vs. ~4 seconds if
     // we use the CustomValue API as we're doing here.
-    $result = civicrm_api3('CustomValue', 'create', array(
+    $result = civicrm_api3('CustomValue', 'create', [
       'entity_id' => $objectId,
       'custom_' . $discount3perFieldID => $discount3per,
-    ));
-    $result = civicrm_api3('CustomValue', 'create', array(
+    ]);
+    $result = civicrm_api3('CustomValue', 'create', [
       'entity_id' => $objectId,
       'custom_' . $discount5perFieldID => $discount5per,
-    ));
+    ]);
   }
 }
 
